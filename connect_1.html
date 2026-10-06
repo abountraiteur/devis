@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aboun Connect</title>
+<meta name="apple-mobile-web-app-title" content="Aboun Connect">
+<meta name="application-name" content="Aboun Connect">
+<meta name="theme-color" content="#4A2C1D">
+<meta name="robots" content="noindex">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<script>
+// Lien de l'appli Aboun Connect (Apps Script). À changer ici seulement si l'adresse de l'appli change.
+var APP = "https://script.google.com/macros/s/AKfycbxWi4BbJDRNw5K78PsKqo30VU5GXSp218yUBKwVfX2YsEzxPexVAfsyJrSqNb2zrJAZ/exec";
+var q = new URLSearchParams(location.search), k = (q.get("k") || "").replace(/[^\w-]/g, "");
+// Ouvert depuis l'icône de l'écran d'accueil : on va directement dans l'appli
+if (k && q.get("app") === "1") location.replace(APP + "?k=" + encodeURIComponent(k));
+</script>
+<style>
+:root{--bg:#FFF6E6;--ink:#2B1B12;--brun:#4A2C1D;--muted:#6E5A4C;--line:#EADBC4;--moutarde:#E9A93B}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+main{max-width:420px;width:100%;text-align:center}
+img.logo{width:112px;height:112px;border-radius:26px;box-shadow:0 6px 20px rgba(74,44,29,.25)}
+h1{font-size:26px;margin:16px 0 4px}
+p.sub{color:var(--muted);margin:0 0 22px}
+a.btn{display:block;background:var(--brun);color:#fff;text-decoration:none;font-weight:600;border-radius:999px;padding:14px 20px;margin-bottom:22px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;text-align:left;margin-bottom:12px}
+.card h2{font-size:15px;margin:0 0 6px}
+.card ol{margin:0;padding-left:20px;color:var(--muted);font-size:14.5px}
+.err{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+  <img class="logo" src="icon-512.png" alt="">
+  <h1>Aboun Connect</h1>
+  <div id="ok" hidden>
+    <p class="sub">L'appli de l'équipe Aboun</p>
+    <a class="btn" id="open" href="#">Ouvrir l'appli</a>
+    <div class="card">
+      <h2>Sur iPhone</h2>
+      <ol><li>Ouvrez cette page dans <strong>Safari</strong>.</li><li>Touchez le bouton <strong>Partager</strong> (carré avec une flèche).</li><li>Choisissez <strong>Sur l'écran d'accueil</strong>, puis <strong>Ajouter</strong>.</li></ol>
+    </div>
+    <div class="card">
+      <h2>Sur Android</h2>
+      <ol><li>Ouvrez cette page dans <strong>Chrome</strong>.</li><li>Touchez le menu <strong>⋮</strong> en haut à droite.</li><li>Choisissez <strong>Ajouter à l'écran d'accueil</strong>.</li></ol>
+    </div>
+  </div>
+  <p class="err" id="nok" hidden>Ce lien est incomplet. Utilisez le lien personnel qui vous a été envoyé pour Aboun Connect.</p>
+</main>
+<script>
+if (k) {
+  document.getElementById("ok").hidden = false;
+  document.getElementById("open").href = APP + "?k=" + encodeURIComponent(k);
+  // L'icône ajoutée à l'écran d'accueil gardera cette adresse et ouvrira directement l'appli
+  history.replaceState(null, "", location.pathname + "?k=" + encodeURIComponent(k) + "&app=1");
+} else {
+  document.getElementById("nok").hidden = false;
+}
+</script>
+</body>
+</html>
