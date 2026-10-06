@@ -155,3 +155,45 @@ textarea.saisie { min-height: 90px; resize: vertical; }
 
 .chiffre { font-size: 30px; font-weight: 700; line-height: 1.1; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Devis imprimable (A4) */
+.feuille {
+  background: var(--blanc);
+  width: 100%;
+  max-width: 794px;
+  padding: 40px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+.feuille .tableau { font-size: 12px; }
+.feuille .etiquette { font-size: 10px; }
+.pdf-entete { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.pdf-societe, .pdf-client { display: flex; flex-direction: column; gap: 2px; font-size: 11px; color: #4a3a30; }
+.pdf-societe > b, .pdf-client > b { font-size: 14px; color: var(--texte); }
+.pdf-client { border: 1.5px solid var(--trait); border-radius: 10px; padding: 12px 14px; min-width: 240px; }
+.pdf-titre { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; border-bottom: 2px solid var(--brun); padding-bottom: 10px; }
+.pdf-titre > div { display: flex; flex-direction: column; gap: 2px; }
+.pdf-titre > div > b { font-size: 22px; }
+.pdf-titre .discret { font-size: 11px; text-align: right; }
+.pdf-infos { background: #f6f1ea; border-radius: 10px; padding: 12px 14px; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+.pdf-infos div { display: flex; flex-direction: column; gap: 1px; }
+.pdf-chapitre { font-weight: 700; font-size: 10px; letter-spacing: 0.06em; color: var(--gris); background: #faf7f2; }
+.pdf-totaux { align-self: flex-end; background: #f6f1ea; border-radius: 10px; padding: 12px 14px; min-width: 280px; font-size: 12px; }
+.pdf-totaux .ttc { font-size: 16px; }
+.pdf-cgv { font-size: 10px; color: #4a3a30; line-height: 1.45; margin: 4px 0 0; padding-left: 14px; display: flex; flex-direction: column; gap: 2px; }
+.pdf-accord { border: 1.5px solid var(--trait); border-radius: 10px; padding: 12px 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 11px; color: var(--gris); }
+.pdf-accord b { grid-column: 1 / -1; color: var(--texte); font-size: 12px; }
+.pdf-signature { grid-column: 1 / -1; border: 1px dashed #cfc3b5; border-radius: 8px; min-height: 60px; padding: 6px; }
+.pdf-pied { font-size: 9px; color: var(--gris); border-top: 1px solid #efe7dc; padding-top: 8px; text-align: center; }
+
+@media print {
+  @page { size: A4; margin: 12mm; }
+  body { background: var(--blanc); }
+  .nav, .pas-imprime { display: none !important; }
+  .contenu { padding: 0; }
+  .feuille { max-width: none; padding: 0; border-radius: 0; }
+  .regimes, .pdf-infos, .pdf-totaux, .pdf-chapitre { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

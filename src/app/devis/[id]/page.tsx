@@ -29,6 +29,8 @@ export default async function FicheDevis({ params }: PageProps<"/devis/[id]">) {
             </Link>
           )}
         </div>
+        <div className="ligne" style={{ alignItems: "flex-end" }}>
+        <Link className="bouton" href={`/devis/${d.id}/pdf`}>Voir le PDF</Link>
         <form action={changerEtapeAction} className="ligne">
           <input type="hidden" name="id" value={d.id} />
           <label className="champ">
@@ -41,6 +43,7 @@ export default async function FicheDevis({ params }: PageProps<"/devis/[id]">) {
           </label>
           <button className="bouton" type="submit" style={{ alignSelf: "flex-end" }}>Changer</button>
         </form>
+        </div>
       </div>
 
       {d.regimes && (
