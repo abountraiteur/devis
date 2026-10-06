@@ -8,6 +8,7 @@
 <meta name="application-name" content="Aboun Connect">
 <meta name="theme-color" content="#4A2C1D">
 <meta name="robots" content="noindex">
+<link rel="manifest" href="connect.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -15,6 +16,8 @@
 // Lien de l'appli Aboun Connect (Apps Script). À changer ici seulement si l'adresse de l'appli change.
 var APP = "https://script.google.com/macros/s/AKfycbxWi4BbJDRNw5K78PsKqo30VU5GXSp218yUBKwVfX2YsEzxPexVAfsyJrSqNb2zrJAZ/exec";
 var q = new URLSearchParams(location.search), k = (q.get("k") || "").replace(/[^\w-]/g, "");
+// On mémorise le code sur ce téléphone : l'icône de l'écran d'accueil le retrouve même si son adresse ne le contient pas
+try { if (k) localStorage.setItem("abounConnectK", k); else k = localStorage.getItem("abounConnectK") || ""; } catch (e) {}
 // Ouvert depuis l'icône de l'écran d'accueil : on va directement dans l'appli
 if (k && q.get("app") === "1") location.replace(APP + "?k=" + encodeURIComponent(k));
 </script>
@@ -46,7 +49,7 @@ a.btn{display:block;background:var(--brun);color:#fff;text-decoration:none;font-
     </div>
     <div class="card">
       <h2>Sur Android</h2>
-      <ol><li>Ouvrez cette page dans <strong>Chrome</strong>.</li><li>Touchez le menu <strong>⋮</strong> en haut à droite.</li><li>Choisissez <strong>Ajouter à l'écran d'accueil</strong>.</li></ol>
+      <ol><li>Ouvrez cette page dans <strong>Firefox</strong> (ou Chrome).</li><li>Touchez le menu <strong>⋮</strong>.</li><li>Choisissez <strong>Ajouter à l'écran d'accueil</strong> (ou <strong>Installer</strong>).</li></ol>
     </div>
   </div>
   <p class="err" id="nok" hidden>Ce lien est incomplet. Utilisez le lien personnel qui vous a été envoyé pour Aboun Connect.</p>
