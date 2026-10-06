@@ -1,69 +1,66 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from "next/link";
+import { formatDate, formatEuros, totaux } from "@/lib/calculs";
+import { listerDevis } from "@/lib/store";
+import { ETAPES } from "@/lib/types";
 
-export default function Home() {
+export default async function Accueil() {
+  const tous = await listerDevis();
+  const aSuivre = tous.filter(({ devis }) =>
+    ["nouvelle", "infos", "predevis"].includes(devis.etape),
+  );
+  const signes = tous
+    .filter(({ devis }) => devis.etape === "signe")
+    .sort((a, b) => a.devis.dateEvenement.localeCompare(b.devis.dateEvenement));
+  const caSigne = signes.reduce((s, x) => s + totaux(x.devis, x.contact).ht, 0);
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.tsx</code> file.
-          </h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <>
+      <h1>Bonjour</h1>
+      <div className="grille">
+        <section className="carte">
+          <span className="etiquette">Devis à traiter</span>
+          <span className="chiffre">{aSuivre.length}</span>
+          <ul className="liste">
+            {aSuivre.map(({ devis, contact }) => (
+              <li key={devis.id}>
+                <Link href={`/devis/${devis.id}`}>
+                  <span>
+                    <b>{devis.titre}</b>
+                    <br />
+                    <span className="discret">{contact?.societe || contact?.nom}</span>
+                  </span>
+                  <span className="pastille alerte">
+                    {ETAPES.find((e) => e.id === devis.etape)?.label}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+        <section className="carte">
+          <span className="etiquette">Prestations signées à venir</span>
+          <span className="chiffre">{formatEuros(caSigne)} HT</span>
+          <ul className="liste">
+            {signes.map(({ devis }) => (
+              <li key={devis.id}>
+                <Link href={`/devis/${devis.id}`}>
+                  <span>
+                    <b>{devis.titre}</b>
+                    <br />
+                    <span className="discret">
+                      {formatDate(devis.dateEvenement)} · {devis.invites} pers.
+                    </span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+      <div className="ligne">
+        <Link className="bouton principal" href="/devis/nouveau">+ Nouveau devis</Link>
+        <Link className="bouton" href="/pipeline">Voir le pipeline</Link>
+      </div>
+    </>
   );
 }

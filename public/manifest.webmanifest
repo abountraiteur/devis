@@ -1,0 +1,10 @@
+{
+  "name": "Aboun Connect",
+  "short_name": "Aboun",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F3F0EB",
+  "theme_color": "#4A2C1D",
+  "lang": "fr",
+  "icons": [{ "src": "/bonhomme-aboun.png", "sizes": "257x445", "type": "image/png" }]
+}
